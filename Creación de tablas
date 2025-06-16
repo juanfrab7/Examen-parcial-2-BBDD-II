@@ -1,0 +1,97 @@
+-- Creación de la base de datos si no existe y su selección
+CREATE DATABASE IF NOT EXISTS tienda_deportes;
+USE tienda_deportes;
+
+-- Tabla: locales
+-- Almacena la información de cada sucursal o local de la tienda.
+CREATE TABLE locales (
+    id_local INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único para cada local
+    nombre_local VARCHAR(100) NOT NULL,      -- Nombre del local (e.g., "Tienda Centro", "Sucursal Norte")
+    direccion VARCHAR(255) NOT NULL,         -- Dirección física del local
+    telefono VARCHAR(20)                     -- Teléfono de contacto del local
+);
+
+-- Tabla: clientes
+-- Almacena la información personal de los clientes de la tienda.
+CREATE TABLE clientes (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único para cada cliente
+    nombre VARCHAR(100) NOT NULL,              -- Nombre del cliente
+    apellido VARCHAR(100) NOT NULL,            -- Apellido del cliente
+    correo VARCHAR(255) UNIQUE NOT NULL,       -- Correo electrónico del cliente (debe ser único)
+    telefono VARCHAR(20),                      -- Número de teléfono del cliente (opcional)
+    direccion VARCHAR(255),                    -- Dirección de residencia del cliente (opcional)
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Fecha y hora en que se registró el cliente
+);
+
+-- Tabla: proveedores
+-- Almacena la información de los proveedores de los artículos deportivos.
+CREATE TABLE proveedores (
+    id_proveedor INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único para cada proveedor
+    nombre_proveedor VARCHAR(255) NOT NULL,      -- Nombre del proveedor
+    contacto VARCHAR(100),                       -- Persona de contacto en el proveedor
+    telefono VARCHAR(20),                        -- Teléfono de contacto del proveedor
+    correo VARCHAR(255) UNIQUE                   -- Correo electrónico del proveedor (opcional, único)
+);
+
+-- Tabla: articulos
+-- Almacena la información detallada de cada artículo deportivo disponible para la venta.
+CREATE TABLE articulos (
+    id_articulo INT AUTO_INCREMENT PRIMARY KEY,     -- Identificador único del artículo
+    nombre_articulo VARCHAR(255) NOT NULL,          -- Nombre del artículo
+    descripcion TEXT,                               -- Descripción detallada del artículo (opcional)
+    categoria_deporte VARCHAR(100),                 -- Categoría de deporte a la que pertenece (e.g., "Fútbol", "Baloncesto")
+    marca VARCHAR(255) NOT NULL,                    -- Marca del artículo
+    id_proveedor INT,                               -- Clave foránea que referencia al proveedor del artículo
+    precio_compra INT NOT NULL,                     -- Precio al que se compra el artículo al proveedor (cambiado a INT)
+    precio_venta INT NOT NULL,                      -- Precio de venta al público (cambiado a INT)
+    stock INT NOT NULL DEFAULT 0,                   -- Cantidad de unidades disponibles en stock
+    fecha_alta DATE DEFAULT (CURRENT_DATE()),       -- Fecha en que el artículo fue registrado en el sistema
+    FOREIGN KEY (id_proveedor) REFERENCES proveedores(id_proveedor) -- Establece la relación con la tabla proveedores
+);
+
+-- Tabla: empleados
+-- Almacena la información del personal que trabaja en la tienda, incluyendo el local donde labora.
+CREATE TABLE empleados (
+    id_empleado INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único para cada empleado
+    nombre VARCHAR(100) NOT NULL,               -- Nombre del empleado
+    apellido VARCHAR(100) NOT NULL,             -- Apellido del empleado
+    cargo VARCHAR(100),                         -- Puesto o cargo del empleado (e.g., "Vendedor", "Gerente")
+    id_local INT NOT NULL,                      -- Clave foránea que referencia al local donde trabaja el empleado
+    fecha_contratacion DATE DEFAULT (CURRENT_DATE()), -- Fecha de contratación del empleado
+    FOREIGN KEY (id_local) REFERENCES locales(id_local) -- Relación con la tabla locales
+);
+
+-- Tabla: pedidos
+-- Registra cada venta o pedido realizado, vinculándolo a un cliente, un empleado y el local.
+CREATE TABLE pedidos (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,       -- Identificador único del pedido
+    id_cliente INT NOT NULL,                        -- Clave foránea que referencia al cliente que realizó el pedido
+    id_empleado INT NOT NULL,                       -- Clave foránea que referencia al empleado que procesó el pedido
+    id_local INT NOT NULL,                          -- Clave foránea que referencia al local donde se realizó el pedido
+    fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha y hora en que se realizó el pedido
+    estado_pedido VARCHAR(50) DEFAULT 'Pendiente',  -- Estado actual del pedido (e.g., 'Pendiente', 'Completado', 'Cancelado')
+    total_pedido INT NOT NULL,                      -- Monto total del pedido (se calculará a partir de los detalles, cambiado a INT)
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente), -- Relación con la tabla clientes
+    FOREIGN KEY (id_empleado) REFERENCES empleados(id_empleado), -- Relación con la tabla empleados
+    FOREIGN KEY (id_local) REFERENCES locales(id_local) -- Relación con la tabla locales
+);
+
+-- Tabla: detalles_pedido
+-- Contiene los artículos específicos y sus cantidades para cada pedido, permitiendo un historial de ventas detallado.
+CREATE TABLE detalles_pedido (
+    id_detalle_pedido INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único para cada detalle de pedido
+    id_pedido INT NOT NULL,                           -- Clave foránea que referencia al pedido al que pertenece
+    id_articulo INT NOT NULL,                         -- Clave foránea que referencia al artículo vendido
+    cantidad INT NOT NULL,                            -- Cantidad de este artículo en el pedido
+    precio_unitario INT NOT NULL,                     -- Precio del artículo en el momento de la venta (cambiado a INT)
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido),     -- Relación con la tabla pedidos
+    FOREIGN KEY (id_articulo) REFERENCES articulos(id_articulo) -- Relación con la tabla articulos
+);
+
+-- Tabla: caja
+-- Registra los ingresos o transacciones de dinero en caja.
+CREATE TABLE caja (
+    id_caja INT AUTO_INCREMENT PRIMARY KEY,      -- Identificador único para cada ingreso
+    ingreso INT NOT NULL,                        -- Monto del ingreso (cambiado a INT)
+    fecha DATE DEFAULT (CURRENT_DATE())          -- Fecha del ingreso (por defecto la fecha actual)
+);
