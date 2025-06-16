@@ -1,0 +1,356 @@
+USE tienda_deportes;
+
+-- Desactivar temporalmente las comprobaciones de clave externa para permitir la limpieza y la inserción de datos en orden arbitrario.
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- Limpiar tablas existentes para una inserción limpia
+TRUNCATE TABLE detalles_pedido;
+TRUNCATE TABLE pedidos;
+TRUNCATE TABLE caja;
+TRUNCATE TABLE articulos;
+TRUNCATE TABLE empleados;
+TRUNCATE TABLE clientes;
+TRUNCATE TABLE proveedores;
+TRUNCATE TABLE locales;
+
+-- Reactivar las comprobaciones de clave externa
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+-- 1. Inserción de 5 locales
+INSERT INTO locales (nombre_local, direccion, telefono) VALUES
+('Tienda Central', 'Av. Corrientes 123, Buenos Aires', '1123456789'),
+('Sucursal Norte', 'Libertador 456, Olivos', '1198765432'),
+('Local Sur', 'Calle 789, Quilmes', '1112340987'),
+('Tienda Oeste', 'Rivadavia 101, Morón', '1156781234'),
+('Zona Deportiva Este', 'Figueroa Alcorta 202, CABA', '1143218765');
+
+
+-- 2. Inserción de 50 clientes
+INSERT INTO clientes (nombre, apellido, correo, telefono, direccion) VALUES
+('Ana', 'Gomez', 'ana.gomez@email.com', '1122334455', 'Calle Falsa 123'),
+('Juan', 'Perez', 'juan.perez@email.com', '1133445566', 'Av. Siempre Viva 456'),
+('Maria', 'Lopez', 'maria.lopez@email.com', '1144556677', 'Blvd. de los Sueños 789'),
+('Pedro', 'Martinez', 'pedro.martinez@email.com', '1155667788', 'Paseo de la Ilusión 101'),
+('Laura', 'Diaz', 'laura.diaz@email.com', '1166778899', 'Ruta Desconocida 202'),
+('Carlos', 'Rodriguez', 'carlos.r@email.com', '1177889900', 'Diagonal Sur 303'),
+('Sofia', 'Sanchez', 'sofia.s@email.com', '1188990011', 'Pasaje Secreto 404'),
+('Diego', 'Fernandez', 'diego.f@email.com', '1199001122', 'Camino Real 505'),
+('Valeria', 'Torres', 'valeria.t@email.com', '1100112233', 'Gran Avenida 606'),
+('Martin', 'Ruiz', 'martin.r@email.com', '1111223344', 'Pequeña Esquina 707'),
+('Camila', 'Flores', 'camila.f@email.com', '1122334450', 'Calle del Sol 808'),
+('Pablo', 'Gonzales', 'pablo.g@email.com', '1133445561', 'Plaza Central 909'),
+('Lucia', 'Ramirez', 'lucia.r@email.com', '1144556672', 'Río Abajo 111'),
+('Fernando', 'Acosta', 'fernando.a@email.com', '1155667783', 'Cerro Alto 222'),
+('Gabriela', 'Benitez', 'gabriela.b@email.com', '1166778894', 'Valle Verde 333'),
+('Joaquin', 'Moreno', 'joaquin.m@email.com', '1177889905', 'Bosque Encantado 444'),
+('Natalia', 'Ortiz', 'natalia.o@email.com', '1188990016', 'Lago Azul 555'),
+('Ricardo', 'Alvarez', 'ricardo.a@email.com', '1199001127', 'Desierto Rojo 666'),
+('Daniela', 'Herrera', 'daniela.h@email.com', '1100112238', 'Montaña Dorada 777'),
+('Sergio', 'Romero', 'sergio.r@email.com', '1111223349', 'Océano Infinito 888'),
+('Veronica', 'Castro', 'veronica.c@email.com', '1122334458', 'Estrella Brillante 999'),
+('Alejandro', 'Silva', 'alejandro.s@email.com', '1133445567', 'Luna Plateada 120'),
+('Marina', 'Navarro', 'marina.n@email.com', '1144556676', 'Sol Naciente 321'),
+('Emilio', 'Miranda', 'emilio.m@email.com', '1155667785', 'Nube Blanca 432'),
+('Florencia', 'Juarez', 'florencia.j@email.com', '1166778894', 'Lluvia Fina 543'),
+('Gustavo', 'Vargas', 'gustavo.v@email.com', '1177889903', 'Viento Fuerte 654'),
+('Victoria', 'Blanco', 'victoria.b@email.com', '1188990012', 'Fuego Ardiente 765'),
+('Hector', 'Cabrera', 'hector.c@email.com', '1199001121', 'Tierra Fértil 876'),
+('Jimena', 'Rojas', 'jimena.r@email.com', '1100112230', 'Agua Pura 987'),
+('Facundo', 'Gimenez', 'facundo.g@email.com', '1111223349', 'Aire Libre 109'),
+('Agustina', 'Salas', 'agustina.s@email.com', '1122334458', 'Piedra Antigua 210'),
+('Gonzalo', 'Pereyra', 'gonzalo.p@email.com', '1133445567', 'Arena Dorada 321'),
+('Daniel', 'Vega', 'daniel.v@email.com', '1144556676', 'Arco Iris 432'),
+('Julieta', 'Molina', 'julieta.m@email.com', '1155667785', 'Rayo Veloz 543'),
+('Federico', 'Sosa', 'federico.s@email.com', '1166778894', 'Escudo Protector 654'),
+('Brenda', 'Castro', 'brenda.c@email.com', '1177889903', 'Espada Mágica 765'),
+('Ezequiel', 'Nunez', 'ezequiel.n@email.com', '1188990012', 'Anillo Poderoso 876'),
+('Paz', 'Ortiz', 'paz.o@email.com', '1199001121', 'Collar de Perlas 987'),
+('Tomas', 'Herrera', 'tomas.h@email.com', '1100112230', 'Pulsera Encantada 109'),
+('Bianca', 'Romero', 'bianca.r@email.com', '1111223349', 'Gema Preciosa 210'),
+('Mateo', 'Silva', 'mateo.s@email.com', '1122334458', 'Diamante Brillante 321'),
+('Luciana', 'Navarro', 'luciana.n@email.com', '1133445567', 'Zafiro Profundo 432'),
+('Ivan', 'Miranda', 'ivan.m@email.com', '1144556676', 'Esmeralda Verde 543'),
+('Delfina', 'Juarez', 'delfina.j@email.com', '1155667785', 'Rubí Sangriento 654'),
+('Santiago', 'Vargas', 'santiago.v@email.com', '1166778894', 'Topacio Dorado 765'),
+('Renata', 'Blanco', 'renata.b@email.com', '1177889903', 'Amatista Púrpura 876'),
+('Lisandro', 'Cabrera', 'lisandro.c@email.com', '1188990012', 'Ópalo Místico 987'),
+('Olivia', 'Rojas', 'olivia.r@email.com', '1199001121', 'Perla Negra 109'),
+('Nicolas', 'Gimenez', 'nicolas.g@email.com', '1100112230', 'Crisol de Almas 210'),
+('Abril', 'Salas', 'abril.s@email.com', '1111223349', 'Corazón Valiente 321');
+
+
+-- 3. Inserción de 10 proveedores
+INSERT INTO proveedores (nombre_proveedor, contacto, telefono, correo) VALUES
+('Deportes Total S.A.', 'Juan Pablo Castro', '0800112233', 'contacto@deportestotal.com'),
+('Sport Gear Pro', 'Laura Fernandez', '0800445566', 'info@sportgearpro.com'),
+('Equipamiento Atlético Global', 'Carlos Ruiz', '0800778899', 'ventas@eqatletico.com'),
+('Innovación Deportiva SRL', 'Sofia Diaz', '0800102030', 'atencion@innovaciond.com'),
+('Mega Sport Argentina', 'Diego Martinez', '0800405060', 'consultas@megasport.com'),
+('Fitness Max Supplies', 'Valeria Lopez', '0800708090', 'support@fitnessmax.com'),
+('Outdoor Adventures Co.', 'Martin Sanchez', '0800113355', 'sales@outdooradv.com'),
+('ProAthlete Gear', 'Camila Perez', '0800224466', 'contact@proathlete.com'),
+('Rendimiento Extremo', 'Pablo Gomez', '0800336699', 'info@rendimientoextremo.com'),
+('Uniformes Deportivos Premium', 'Lucia Torres', '0800557788', 'contacto@uniformesp.com');
+
+
+-- 4. Inserción de 100 artículos
+-- Se asume que los id_proveedor irán del 1 al 10 (total de 10 proveedores)
+INSERT INTO articulos (nombre_articulo, descripcion, categoria_deporte, marca, id_proveedor, precio_compra, precio_venta, stock) VALUES
+-- Fútbol
+('Balón de Fútbol N5', 'Balón de fútbol profesional, tamaño 5', 'Fútbol', 'Adidas', 1, 15000, 25000, 50),
+('Botines de Fútbol Césped', 'Botines para césped natural, alta tracción', 'Fútbol', 'Nike', 2, 20000, 35000, 40),
+('Camiseta Selección Argentina', 'Camiseta oficial de la selección de fútbol', 'Fútbol', 'Adidas', 1, 18000, 30000, 60),
+('Espinilleras de Fútbol', 'Protecciones para tibia, diseño ligero', 'Fútbol', 'Puma', 3, 3000, 5000, 70),
+('Guantes de Arquero Profesional', 'Guantes con agarre reforzado y protección', 'Fútbol', 'Reusch', 4, 12000, 20000, 30),
+('Red de Arco de Fútbol', 'Red de nylon resistente para arcos reglamentarios', 'Fútbol', 'Sportland', 5, 5000, 9000, 20),
+('Conos de Entrenamiento Fútbol', 'Set de 10 conos plásticos para ejercicios', 'Fútbol', 'ProTrainer', 6, 1500, 2500, 100),
+('Mini Balón de Fútbol', 'Balón tamaño 1 para niños o decoración', 'Fútbol', 'Adidas', 1, 5000, 8000, 80),
+('Pantalón Corto Fútbol', 'Pantalón ligero de entrenamiento', 'Fútbol', 'Nike', 2, 8000, 13000, 55),
+('Medias de Fútbol', 'Medias largas para fútbol, compresión', 'Fútbol', 'Umbro', 7, 2000, 3500, 90),
+
+-- Baloncesto
+('Balón de Baloncesto N7', 'Balón de baloncesto oficial, tamaño 7', 'Baloncesto', 'Spalding', 8, 10000, 18000, 45),
+('Zapatillas Baloncesto Alta Gama', 'Zapatillas con amortiguación para salto', 'Baloncesto', 'Under Armour', 9, 25000, 40000, 35),
+('Camiseta de Baloncesto Equipo', 'Camiseta sin mangas, tejido transpirable', 'Baloncesto', 'Nike', 2, 10000, 16000, 50),
+('Red de Aro de Baloncesto', 'Red de cadena de acero para aros', 'Baloncesto', 'Sportland', 5, 2000, 3500, 60),
+('Protector Bucal Baloncesto', 'Protector dental termoformable', 'Baloncesto', 'Shock Doctor', 10, 1500, 2500, 75),
+
+-- Running
+('Zapatillas Running Asfalto', 'Zapatillas con máxima amortiguación para correr', 'Running', 'Asics', 1, 22000, 38000, 40),
+('Remera Dry-Fit Running', 'Remera de secado rápido, ligera', 'Running', 'Adidas', 1, 7000, 12000, 80),
+('Short Running Corto', 'Shorts ligeros con forro interior', 'Running', 'Nike', 2, 6000, 10000, 70),
+('Reloj GPS Multisport', 'Reloj con GPS, pulsómetro y funciones de carrera', 'Running', 'Garmin', 3, 50000, 75000, 25),
+('Botella de Agua Deportiva', 'Botella ergonómica de 750ml', 'Running', 'Camelbak', 4, 2500, 4000, 90),
+
+-- Natación
+('Traje de Baño Natación', 'Malla de natación de competición', 'Natación', 'Speedo', 5, 9000, 15000, 30),
+('Gafas de Natación Anti-Fog', 'Antiparras con tratamiento anti-empaño', 'Natación', 'Arena', 6, 3000, 5000, 85),
+('Gorro de Natación Silicona', 'Gorro de silicona para natación, alta durabilidad', 'Natación', 'Tyr', 7, 1000, 1800, 100),
+('Aletas de Natación Cortas', 'Aletas para entrenamiento de técnica', 'Natación', 'Finis', 8, 4000, 7000, 40),
+('Tabla de Natación Pull Buoy', 'Flotador para entrenamiento de brazos', 'Natación', 'Speedo', 5, 2000, 3500, 50),
+
+-- Tenis
+('Raqueta de Tenis Avanzada', 'Raqueta para jugadores avanzados, control y potencia', 'Tenis', 'Babolat', 9, 28000, 45000, 25),
+('Pelotas de Tenis (Tubox3)', 'Tubo con 3 pelotas de tenis presurizadas', 'Tenis', 'Penn', 10, 1500, 2500, 120),
+('Grip para Raqueta', 'Overgrip para raqueta de tenis, absorbente', 'Tenis', 'Wilson', 1, 500, 900, 200),
+('Muñequera de Tenis', 'Muñequera de algodón para absorber sudor', 'Tenis', 'Nike', 2, 800, 1500, 150),
+('Zapatillas de Tenis Arcilla', 'Zapatillas con suela especial para canchas de polvo de ladrillo', 'Tenis', 'Asics', 1, 18000, 30000, 30),
+
+-- Ciclismo
+('Casco de Ciclismo Ruta', 'Casco aerodinámico con ventilación', 'Ciclismo', 'Specialized', 3, 15000, 25000, 20),
+('Guantes de Ciclismo Dedo Corto', 'Guantes con gel para ciclismo', 'Ciclismo', 'Giro', 4, 3000, 5000, 60),
+('Luz Delantera Bicicleta', 'Luz LED recargable para bicicleta', 'Ciclismo', 'Cateye', 5, 4000, 7000, 70),
+('Candado de Bicicleta U-Lock', 'Candado de alta seguridad para bicicletas', 'Ciclismo', 'Kryptonite', 6, 8000, 13000, 40),
+('Bidón de Agua Ciclismo', 'Botella de agua de 750ml para bicicleta', 'Ciclismo', 'Elite', 7, 1000, 1800, 90),
+
+-- Ropa Deportiva General
+('Calza Larga Deportiva Hombre', 'Calza de compresión para deportes', 'Ropa Deportiva', 'Under Armour', 9, 9000, 15000, 40),
+('Calza Larga Deportiva Mujer', 'Calza de lycra para running/yoga', 'Ropa Deportiva', 'Adidas', 1, 9000, 15000, 40),
+('Top Deportivo Dama', 'Top de sujeción media, transpirable', 'Ropa Deportiva', 'Nike', 2, 7000, 12000, 60),
+('Buzo con Capucha Deportivo', 'Buzo de algodón y poliéster para antes/después de entrenar', 'Ropa Deportiva', 'Puma', 3, 12000, 20000, 35),
+('Chaqueta Rompevientos', 'Chaqueta ligera, resistente al viento y agua', 'Ropa Deportiva', 'Columbia', 4, 18000, 30000, 25),
+
+-- Accesorios y Otros
+('Mochila Deportiva 30L', 'Mochila espaciosa para gym o viajes cortos', 'Accesorios', 'Doite', 6, 10000, 17000, 30),
+('Pesas Mancuernas (par)', 'Par de mancuernas ajustables de 5kg', 'Gimnasio', 'Body Solid', 7, 15000, 25000, 20),
+('Bandas Elásticas Resistencia', 'Set de 3 bandas de diferentes resistencias', 'Gimnasio', 'LiveUp', 8, 2000, 3500, 80),
+('Cuerda para Saltar', 'Cuerda de salto ajustable con rodamientos', 'Gimnasio', 'Everlast', 9, 1500, 2500, 100),
+('Colchoneta de Yoga', 'Colchoneta antideslizante para yoga y fitness', 'Yoga/Fitness', 'Reebok', 10, 4000, 7000, 50),
+
+-- Más artículos (relleno hasta 100)
+('Balón Voley Playa', 'Balón resistente al agua para voley playa', 'Voley', 'Mikasa', 8, 8000, 14000, 40),
+('Rodilleras Voleyball', 'Rodilleras acolchadas para voley', 'Voley', 'Mizuno', 9, 3000, 5000, 60),
+('Palo de Hockey Césped', 'Palo de hockey de composición, para césped', 'Hockey', 'Grays', 10, 15000, 25000, 25),
+('Bucal Hockey', 'Protector bucal para hockey', 'Hockey', 'Shock Doctor', 10, 1200, 2000, 70),
+('Guantes Boxeo 12oz', 'Guantes de boxeo de entrenamiento', 'Boxeo', 'Everlast', 9, 10000, 18000, 30),
+('Vendas Boxeo', 'Vendas elásticas para protección de manos', 'Boxeo', 'Adidas', 1, 1500, 2500, 90),
+('Mesa de Ping Pong Plegable', 'Mesa de ping pong con red y paletas', 'Tenis de Mesa', 'Donic', 2, 40000, 65000, 10),
+('Paleta de Ping Pong Profesional', 'Paleta con buen spin y control', 'Tenis de Mesa', 'Butterfly', 3, 7000, 12000, 50),
+('Raqueta de Squash', 'Raqueta ligera y resistente para squash', 'Squash', 'Head', 4, 18000, 30000, 20),
+('Pelotas de Squash (Tubox3)', 'Tubo de 3 pelotas de squash', 'Squash', 'Dunlop', 5, 2000, 3500, 80),
+('Guantes de Ciclismo Dedo Largo', 'Guantes térmicos para ciclismo de invierno', 'Ciclismo', 'Pearl Izumi', 6, 5000, 9000, 30),
+('Portaequipajes Bicicleta', 'Portaequipajes trasero para bicicleta', 'Ciclismo', 'Topeak', 7, 7000, 12000, 20),
+('Inflador Bicicleta Portátil', 'Inflador manual con manómetro', 'Ciclismo', 'Topeak', 7, 3000, 5000, 70),
+('Remera Térmica Hombre', 'Remera térmica de primera capa para frío', 'Ropa Deportiva', 'Columbia', 4, 10000, 17000, 50),
+('Remera Térmica Mujer', 'Remera térmica de primera capa para frío', 'Ropa Deportiva', 'Columbia', 4, 10000, 17000, 50),
+('Malla Natación Hombre Jammer', 'Traje de baño tipo jammer, baja resistencia', 'Natación', 'Speedo', 5, 8000, 14000, 40),
+('Gorro de Silicona con Diseño', 'Gorro de natación con estampados divertidos', 'Natación', 'Arena', 6, 1200, 2000, 80),
+('Pesa Rusa Kettlebell 10kg', 'Pesa rusa de hierro fundido', 'Gimnasio', 'Bowflex', 8, 12000, 20000, 25),
+('Banco de Pesas Ajustable', 'Banco multi-posición para ejercicios con pesas', 'Gimnasio', 'Everlast', 9, 30000, 50000, 15),
+('Barra Olímpica 20kg', 'Barra de levantamiento de pesas olímpica', 'Gimnasio', 'Rogue Fitness', 10, 40000, 65000, 10),
+('Discos Olímpicos 5kg (par)', 'Par de discos de goma olímpicos 5kg', 'Gimnasio', 'Body Solid', 7, 6000, 10000, 30),
+('Guantes de Gimnasio', 'Guantes con protección en palma y muñeca', 'Gimnasio', 'Harbinger', 1, 2000, 3500, 90),
+('Cinturón de Levantamiento Pesas', 'Cinturón lumbar para levantamiento', 'Gimnasio', 'Schiek', 2, 5000, 9000, 40),
+('Rodillo de Espuma', 'Rodillo de masaje para recuperación muscular', 'Gimnasio', 'TriggerPoint', 3, 3000, 5000, 60),
+('Bandas de Resistencia Circular', 'Set de bandas circulares para piernas y glúteos', 'Gimnasio', 'Fit Simplify', 4, 2500, 4000, 70),
+('Mochila Hidratación Running', 'Mochila ligera con bolsa de hidratación', 'Running', 'Salomon', 5, 12000, 20000, 25),
+('Gafas de Sol Deportivas', 'Gafas polarizadas para deportes al aire libre', 'Accesorios', 'Oakley', 6, 15000, 25000, 30),
+('Paraguas Plegable Compacto', 'Paraguas compacto y resistente al viento', 'Accesorios', 'Blunt', 7, 5000, 9000, 50),
+('Botella Térmica Acero Inox.', 'Botella que mantiene temperatura por horas', 'Accesorios', 'Hydro Flask', 8, 6000, 10000, 60),
+('Auriculares Deportivos Bluetooth', 'Auriculares inalámbricos resistentes al sudor', 'Accesorios', 'JBL', 9, 10000, 17000, 40),
+('Toalla de Microfibra Deportiva', 'Toalla de secado rápido, compacta', 'Accesorios', 'Decathlon', 10, 1500, 2500, 100),
+('Calcetines de Compresión', 'Calcetines deportivos con compresión gradual', 'Ropa Deportiva', 'CEP', 1, 3000, 5000, 80),
+('Riñonera Deportiva', 'Riñonera ajustable para running', 'Accesorios', 'Nike', 2, 2000, 3500, 90),
+('Gorras Deportivas', 'Gorras de béisbol con logo deportivo', 'Accesorios', 'Adidas', 1, 2500, 4000, 120),
+('Mochila Cuerdas Deportiva', 'Mochila tipo saco para ropa de gimnasio', 'Accesorios', 'Puma', 3, 3000, 5000, 110),
+('Guantes Levantamiento Pesas', 'Guantes con muñequera para levantamiento', 'Gimnasio', 'Rogue Fitness', 10, 4000, 7000, 50),
+('Cinturón para Correr con Bolsillo', 'Cinturón elástico con bolsillos para celular y llaves', 'Running', 'FlipBelt', 5, 2500, 4000, 70),
+('Cuerda de Salto de Acero', 'Cuerda de salto con cable de acero y manijas ergonómicas', 'Gimnasio', 'Crossrope', 6, 4000, 7000, 60),
+('Rueda Abdominal', 'Rueda de ejercicio para fortalecer el core', 'Gimnasio', 'Perfect Fitness', 7, 3000, 5000, 80),
+('Bandas de Resistencia Largas', 'Bandas de tela para ejercicios de piernas y glúteos', 'Gimnasio', 'Bands For Life', 8, 4000, 7000, 75),
+('Kit de Boxeo para Niños', 'Guantes y saco de boxeo para niños', 'Boxeo', 'Everlast', 9, 12000, 20000, 20),
+('Saco de Boxeo Pesado', 'Saco de boxeo de 60kg, sin relleno', 'Boxeo', 'Title Boxing', 10, 18000, 30000, 15),
+('Vendas de Boxeo de Algodón', 'Vendas de algodón para boxeo, 4 metros', 'Boxeo', 'Venum', 1, 1000, 1800, 100),
+('Soporte de Pared para Saco', 'Soporte de pared reforzado para saco de boxeo', 'Boxeo', 'Everlast', 9, 6000, 10000, 25),
+('Cabezal de Boxeo Protección', 'Casco de protección para boxeo', 'Boxeo', 'Winning', 8, 25000, 40000, 10),
+('Guantes de Muay Thai', 'Guantes de entrenamiento para Muay Thai', 'Artes Marciales', 'Twins Special', 7, 15000, 25000, 20),
+('Kimono de Judo', 'Kimono de algodón reforzado para judo', 'Artes Marciales', 'Adidas', 1, 20000, 35000, 15),
+('Dobok Taekwondo', 'Uniforme de taekwondo aprobado por la WTF', 'Artes Marciales', 'Mooto', 2, 18000, 30000, 18),
+('Protector Tibial Artes Marciales', 'Protección para espinillas en artes marciales', 'Artes Marciales', 'Venum', 3, 5000, 9000, 40),
+('Guantes de Karate', 'Guantes de karate con protección de nudillos', 'Artes Marciales', 'Hayashi', 4, 4000, 7000, 50),
+('Pelotas de Pádel (Tubox3)', 'Tubo con 3 pelotas de pádel', 'Pádel', 'Head', 4, 1800, 3000, 90),
+('Paleta de Pádel Fibra Carbono', 'Paleta de pádel de alta gama, control y potencia', 'Pádel', 'Bullpadel', 5, 30000, 50000, 20),
+('Zapatillas de Pádel', 'Zapatillas con suela específica para pádel', 'Pádel', 'Asics', 1, 18000, 30000, 30),
+('Funda para Paleta de Pádel', 'Funda térmica para paleta de pádel', 'Pádel', 'Adidas', 1, 2500, 4000, 60),
+('Toalla de Mano Deportiva', 'Toalla pequeña para gimnasio', 'Accesorios', 'Nike', 2, 1000, 1800, 150),
+('Termo Deportivo 1L', 'Termo de acero inoxidable para líquidos fríos/calientes', 'Accesorios', 'Stanley', 3, 8000, 13000, 40),
+('Par de Bastones de Trekking', 'Bastones ajustables para senderismo', 'Montañismo', 'Black Diamond', 4, 15000, 25000, 25),
+('Linterna Frontal LED', 'Linterna para cabeza, ideal para camping o running nocturno', 'Camping', 'Petzl', 5, 5000, 9000, 35),
+('Carpas de Campaña 2 Personas', 'Carpa ligera y fácil de armar', 'Camping', 'Doite', 6, 20000, 35000, 15),
+('Saco de Dormir -5°C', 'Saco de dormir para temperaturas bajas', 'Camping', 'National Geographic', 7, 18000, 30000, 10),
+('Mochila de Trekking 60L', 'Mochila grande para expediciones', 'Montañismo', 'Osprey', 8, 25000, 40000, 12),
+('Bolsa de Compresión para Ropa', 'Bolsa para comprimir ropa en mochila', 'Accesorios', 'Sea to Summit', 9, 2000, 3500, 70),
+('Funda Impermeable para Mochila', 'Protector de lluvia para mochilas', 'Accesorios', 'Ferrino', 10, 2500, 4000, 80),
+('Funda Impermeable para Celular', 'Funda universal sumergible para smartphone', 'Accesorios', 'GoPro', 1, 1500, 2500, 100),
+('Pesa de Tobillo/Muñeca 1kg (par)', 'Pesas ajustables para brazos y piernas', 'Gimnasio', 'LiveUp', 2, 2000, 3500, 90),
+('Banda Elástica para Piernas', 'Banda de tela para ejercicios de cadera y glúteos', 'Gimnasio', 'Bodylastics', 3, 1800, 3000, 85),
+('Guantes de Fitness Mujer', 'Guantes con diseño para manos pequeñas', 'Gimnasio', 'Nike', 2, 1500, 2500, 70),
+('Ab Wheel Pro', 'Rueda abdominal profesional con asas ergonómicas', 'Gimnasio', 'Perfect Fitness', 7, 4000, 7000, 50),
+('Barra de Dominadas Puerta', 'Barra para dominadas que se ajusta al marco de la puerta', 'Gimnasio', 'Iron Gym', 8, 7000, 12000, 30),
+('Set de Mancuernas Ajustables', 'Set de mancuernas con pesos intercambiables', 'Gimnasio', 'Bowflex', 8, 40000, 65000, 10),
+('Banco de Abdominales Curvo', 'Banco para trabajar abdominales, plegable', 'Gimnasio', 'Adidas', 1, 15000, 25000, 20),
+('Balón Medicinal 5kg', 'Balón de peso para ejercicios funcionales', 'Gimnasio', 'Everlast', 9, 8000, 13000, 30),
+('Plataforma Vibratoria', 'Plataforma con vibración para entrenamiento', 'Gimnasio', 'Power Plate', 10, 80000, 120000, 5),
+('Cinta de Correr Plegable', 'Cinta de correr eléctrica, plegable para ahorrar espacio', 'Gimnasio', 'Olmo', 2, 100000, 160000, 8),
+('Bicicleta Fija Spinning', 'Bicicleta para spinning con resistencia ajustable', 'Gimnasio', 'Randers', 3, 70000, 110000, 10),
+('Elíptico Magnético', 'Bicicleta elíptica con sistema magnético', 'Gimnasio', 'ProForm', 4, 90000, 140000, 7),
+('Máquina de Remo Plegable', 'Máquina de remo con monitor LCD', 'Gimnasio', 'Concept2', 5, 120000, 190000, 5),
+('Set de Bandas de TRX', 'Sistema de entrenamiento en suspensión', 'Gimnasio', 'TRX', 6, 18000, 30000, 25),
+('Botella Shaker para Proteína', 'Botella con rejilla para mezclar suplementos', 'Nutrición', 'BlenderBottle', 7, 1000, 1800, 150),
+('Barritas Energéticas (Caja x12)', 'Caja de 12 barritas energéticas de cereal', 'Nutrición', 'Powerade', 8, 3000, 5000, 100),
+('Proteína Whey 1kg', 'Suplemento de proteína de suero de leche', 'Nutrición', 'Optimum Nutrition', 9, 25000, 40000, 30),
+('Creatina Monohidrato 300g', 'Suplemento para aumento de fuerza', 'Nutrición', 'Universal Nutrition', 10, 10000, 17000, 40),
+('Vitaminas Complejo B', 'Suplemento de vitaminas del complejo B', 'Nutrición', 'Solgar', 1, 8000, 13000, 50),
+('Guantes de Ciclismo Invierno', 'Guantes térmicos de ciclismo a prueba de viento', 'Ciclismo', 'Castelli', 2, 6000, 10000, 30);
+
+
+-- 5. Inserción de 20 empleados
+-- Se asume que los id_local irán del 1 al 5
+INSERT INTO empleados (nombre, apellido, cargo, id_local) VALUES
+('Juan', 'Gomez', 'Vendedor', 1),
+('Maria', 'Lopez', 'Vendedor', 1),
+('Pedro', 'Diaz', 'Gerente', 1),
+('Laura', 'Martinez', 'Vendedor', 2),
+('Carlos', 'Rodriguez', 'Vendedor', 2),
+('Sofia', 'Fernandez', 'Gerente', 2),
+('Diego', 'Sanchez', 'Vendedor', 3),
+('Valeria', 'Ruiz', 'Vendedor', 3),
+('Martin', 'Flores', 'Gerente', 3),
+('Camila', 'Gonzales', 'Vendedor', 4),
+('Pablo', 'Ramirez', 'Vendedor', 4),
+('Lucia', 'Acosta', 'Gerente', 4),
+('Fernando', 'Benitez', 'Vendedor', 5),
+('Gabriela', 'Moreno', 'Vendedor', 5),
+('Joaquin', 'Ortiz', 'Gerente', 5),
+('Natalia', 'Alvarez', 'Vendedor', 1),
+('Ricardo', 'Herrera', 'Vendedor', 2),
+('Daniela', 'Romero', 'Vendedor', 3),
+('Sergio', 'Silva', 'Vendedor', 4),
+('Veronica', 'Navarro', 'Vendedor', 5);
+
+
+-- 6. y 7. Inserción de 80 pedidos con sus detalles de pedido
+-- y actualización del total_pedido
+DELIMITER //
+
+CREATE PROCEDURE GenerateOrdersAndDetails()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    DECLARE random_client_id INT;
+    DECLARE random_employee_id INT;
+    DECLARE random_local_id INT;
+    DECLARE random_date DATE;
+    DECLARE num_articles_in_order INT;
+    DECLARE j INT;
+    DECLARE random_article_id INT;
+    DECLARE random_quantity INT;
+    DECLARE article_price INT;
+    DECLARE current_order_total INT;
+    DECLARE order_status VARCHAR(50);
+
+    WHILE i <= 80 DO
+        SET random_client_id = (SELECT id_cliente FROM clientes ORDER BY RAND() LIMIT 1);
+        SET random_employee_id = (SELECT id_empleado FROM empleados ORDER BY RAND() LIMIT 1);
+        SET random_local_id = (SELECT id_local FROM locales ORDER BY RAND() LIMIT 1);
+        SET random_date = DATE_ADD('2024-01-01', INTERVAL FLOOR(RAND() * 365) DAY); -- Fecha aleatoria en 2024
+        SET num_articles_in_order = FLOOR(1 + RAND() * 5); -- Entre 1 y 5 artículos por pedido
+        SET current_order_total = 0;
+        SET order_status = CASE FLOOR(RAND() * 3)
+                               WHEN 0 THEN 'Completado'
+                               WHEN 1 THEN 'Pendiente'
+                               ELSE 'Cancelado'
+                           END;
+
+        -- Insertar el pedido inicial con total_pedido en 0 (se actualizará después)
+        INSERT INTO pedidos (id_cliente, id_empleado, id_local, fecha_pedido, estado_pedido, total_pedido)
+        VALUES (random_client_id, random_employee_id, random_local_id, random_date, order_status, 0);
+
+        -- Obtener el ID del pedido recién insertado
+        SET @last_pedido_id = LAST_INSERT_ID();
+
+        SET j = 1;
+        WHILE j <= num_articles_in_order DO
+            SET random_article_id = (SELECT id_articulo FROM articulos ORDER BY RAND() LIMIT 1);
+            SET random_quantity = FLOOR(1 + RAND() * 5); -- Cantidad entre 1 y 5
+            SET article_price = (SELECT precio_venta FROM articulos WHERE id_articulo = random_article_id);
+
+            INSERT INTO detalles_pedido (id_pedido, id_articulo, cantidad, precio_unitario)
+            VALUES (@last_pedido_id, random_article_id, random_quantity, article_price);
+
+            -- Actualizar el stock del artículo
+            UPDATE articulos SET stock = stock - random_quantity WHERE id_articulo = random_article_id;
+
+            SET current_order_total = current_order_total + (random_quantity * article_price);
+            SET j = j + 1;
+        END WHILE;
+
+        -- Actualizar el total_pedido para el pedido recién insertado
+        UPDATE pedidos
+        SET total_pedido = current_order_total
+        WHERE id_pedido = @last_pedido_id;
+
+        SET i = i + 1;
+    END WHILE;
+END //
+
+DELIMITER ;
+
+CALL GenerateOrdersAndDetails();
+DROP PROCEDURE IF EXISTS GenerateOrdersAndDetails;
+
+
+-- 8. Inserción de datos en la tabla caja
+-- Sumar el total de pedidos completados por fecha e insertarlos en la tabla caja
+INSERT INTO caja (ingreso, fecha)
+SELECT
+    SUM(p.total_pedido) AS ingreso_diario,
+    DATE(p.fecha_pedido) AS fecha_caja
+FROM
+    pedidos p
+WHERE
+    p.estado_pedido = 'Completado'
+GROUP BY
+    DATE(p.fecha_pedido)
+ORDER BY
+    fecha_caja;
