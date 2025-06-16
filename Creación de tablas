@@ -46,7 +46,7 @@ CREATE TABLE articulos (
     precio_venta INT NOT NULL,                      -- Precio de venta al público (cambiado a INT)
     stock INT NOT NULL DEFAULT 0,                   -- Cantidad de unidades disponibles en stock
     fecha_alta DATE DEFAULT (CURRENT_DATE()),       -- Fecha en que el artículo fue registrado en el sistema
-    FOREIGN KEY (id_proveedor) REFERENCES proveedores(id_proveedor) -- Establece la relación con la tabla proveedores
+    FOREIGN KEY (id_proveedor) REFERENCES proveedores(id_proveedor) ON DELETE CASCADE -- Establece la relación con la tabla proveedores
 );
 
 -- Tabla: empleados
@@ -58,7 +58,7 @@ CREATE TABLE empleados (
     cargo VARCHAR(100),                         -- Puesto o cargo del empleado (e.g., "Vendedor", "Gerente")
     id_local INT NOT NULL,                      -- Clave foránea que referencia al local donde trabaja el empleado
     fecha_contratacion DATE DEFAULT (CURRENT_DATE()), -- Fecha de contratación del empleado
-    FOREIGN KEY (id_local) REFERENCES locales(id_local) -- Relación con la tabla locales
+    FOREIGN KEY (id_local) REFERENCES locales(id_local) ON DELETE CASCADE -- Relación con la tabla locales
 );
 
 -- Tabla: pedidos
@@ -71,9 +71,9 @@ CREATE TABLE pedidos (
     fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha y hora en que se realizó el pedido
     estado_pedido VARCHAR(50) DEFAULT 'Pendiente',  -- Estado actual del pedido (e.g., 'Pendiente', 'Completado', 'Cancelado')
     total_pedido INT NOT NULL,                      -- Monto total del pedido (se calculará a partir de los detalles, cambiado a INT)
-    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente), -- Relación con la tabla clientes
-    FOREIGN KEY (id_empleado) REFERENCES empleados(id_empleado), -- Relación con la tabla empleados
-    FOREIGN KEY (id_local) REFERENCES locales(id_local) -- Relación con la tabla locales
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente) ON DELETE CASCADE, -- Relación con la tabla clientes
+    FOREIGN KEY (id_empleado) REFERENCES empleados(id_empleado) ON DELETE CASCADE, -- Relación con la tabla empleados
+    FOREIGN KEY (id_local) REFERENCES locales(id_local) ON DELETE CASCADE -- Relación con la tabla locales
 );
 
 -- Tabla: detalles_pedido
@@ -84,8 +84,8 @@ CREATE TABLE detalles_pedido (
     id_articulo INT NOT NULL,                         -- Clave foránea que referencia al artículo vendido
     cantidad INT NOT NULL,                            -- Cantidad de este artículo en el pedido
     precio_unitario INT NOT NULL,                     -- Precio del artículo en el momento de la venta (cambiado a INT)
-    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido),     -- Relación con la tabla pedidos
-    FOREIGN KEY (id_articulo) REFERENCES articulos(id_articulo) -- Relación con la tabla articulos
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido) ON DELETE CASCADE,     -- Relación con la tabla pedidos
+    FOREIGN KEY (id_articulo) REFERENCES articulos(id_articulo) ON DELETE CASCADE -- Relación con la tabla articulos
 );
 
 -- Tabla: caja
